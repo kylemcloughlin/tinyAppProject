@@ -1,0 +1,19 @@
+{
+  "name": "tinyappproject",
+  "version": "1.0.0",
+  "description": "lighthouse labs pro###2",
+  "main": "tinyAppServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kylemcloughlin/tinyAppProject.git"
+  },
+  "author": "Kyle Mcloughlin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kylemcloughlin/tinyAppProject/issues"
+  },
+  "homepage": "https://github.com/kylemcloughlin/tinyAppProject#readme"
+}
