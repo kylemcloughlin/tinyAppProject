@@ -28,42 +28,50 @@ app.get("/urls/new", (req, res) => {
   res.render('urls_new', templateVars);
 });
 
-app.post("/urls", (req, res) => {
+app.post("/urls",(req, res) => {
  var newId = randomNum(0, 26);
   urlDatabase[newId] = req.body.longURL;
   const output = { shortURL : newId, longURL: urlDatabase[newId]}
-  console.log(output); 
-  console.log(output);  
-
+  
   res.render("urls_show", output);         
 });
+app.post("/urls/:shortURL/delete",(req, res) => {
+  var shortURL = req.params.shortURL;
+  
+  var templateVars = { urls: urlDatabase};
+
+  delete urlDatabase[shortURL];
+  
+
+
+  console.log(req.params.shortURL);
+  console.log(urlDatabase[shortURL]);
+
+  res.redirect('/urls');
+});
+
 
 app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase}
   res.render('urls_index', templateVars);
+  console.log(templateVars);
 });
   
 app.get("/urls/:shortURL", (req, res) => {
-    const shortURL = req.params.shortURL;
-    const templateVars = { shortURL: shortURL, longURL: urlDatabase[shortURL] };
-    res.render("urls_show", templateVars);
-  });
-  app.get("/u/:shortURL", (req, res) => {
-    let shorten = req.params.shortURL;
-    console.log('shortURL =', shorten)
-    console.log('urldatbase =', urlDatabase)
-    console.log('urldatbase (shorturl)=', urlDatabase[shorten])
+  const shortURL = req.params.shortURL;
+  const templateVars = { shortURL: shortURL, longURL: urlDatabase[shortURL] };
+  res.render("urls_show", templateVars);
+});
 
-
-    const direction = { shortURL: shorten, longURL: urlDatabase[shorten]}
-    console.log('diriction =', direction)
-    
-    console.log(direction.shortURL, direction.longURL);
-
-    res.redirect(direction.longURL);
-  });
+app.get("/u/:shortURL", (req, res) => {
+  let shorten = req.params.shortURL;
   
-  app.listen(PORT, () => {
+  const direction = { shortURL: shorten, longURL: urlDatabase[shorten]}
+  
+  res.redirect(direction.longURL);
+});
+
+app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}!`);
 });
 
