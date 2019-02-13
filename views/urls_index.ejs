@@ -8,19 +8,22 @@
 <!-- Bootstrap CSS-->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <title>TinyApp</title>
-<% include ../views/_header%>
+
 </head>
 
 <body style="font-size: 20px; padding: 50px;">
     <h1> short URL  </h1>
- <h2><a href="_"></a></h2>
-    <ul><% for (var shortURL in urls) {%>
+    <H4> <% include ../views/_header%></H4>
+ 
+    <h2><a href="_"> </a></h2>
+   
+ <ul> <% for (var shortURL in urls) {%>
    
    
-    <li><a href = "#"><%=  shortURL %></a></li>
+    <li><%=  shortURL %> From <%= urls[shortURL] %> </li>
    
    
-    <%}%>
+    <% }%>
 </ul>
 <h2></h2>
 </body>
