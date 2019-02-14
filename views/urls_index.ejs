@@ -12,21 +12,25 @@
 </head>
 
 <body style="font-size: 20px; padding: 50px;">
-    <h1> short URL  </h1>
-    <H4> <% include ../views/_header%></H4>
+    <h1> short URL </h1>
+    <H4> <%- include('partials/_header.ejs') %></H4>
  
-    <h2><a href="_"> </a></h2>
+   
    
  <ul> <% for (var shortURL in urls) {%>
    
     
-    <li><%=  shortURL %> From <%= urls[shortURL] %> </li>
-    <form method="POST" action=<%= `/urls/${shortURL}/delete` %>>
+    <li><%= shortURL %> From <%= urls[shortURL] %> </li>
+    <form method="POST" action=<%= `/urls/${shortURL}/delete ` %>>
        <button type="delete" class="btn btn-primary">DELETE</button>
+       <a href="/urls/<%= shortURL %>"> Edit</a>
+      
     </form>
-   
-    <% }%>
+      
+    <%}%>
+
 </ul>
+
 <h2></h2>
 </body>
 

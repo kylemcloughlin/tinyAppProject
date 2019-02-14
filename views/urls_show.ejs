@@ -21,17 +21,15 @@
 
 
     <h1> TinyURL App</h1>
-    <H4>
-        <% include ../views/_header%>
-    </H4>
-    <h2>shortURL</h2>
+    <H4> <%- include('partials/_header.ejs') %></H4>
+    <h1>ShortURL</h1>
     <li>
-        <%= shortURL %> for
+   <b>     <%= shortURL %> :</b>
         <%= longURL %>
     </li>
     <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
     
-    <form method="POST" action=<%=`update/${shortURL}`%>>  
+    <form method="POST" action="/update/<%= shortURL %>">  
     <input class="form-control" type="text" name="longURL" placeholder="www." style="width: 300px; margin: 1em">
     <button type="submit" class="btn btn-primary">Update...</button>
 
