@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 //milddleware
 const cookieParser = require("cookie-parser");
 function seeCookies (req, res, next) {
-  console.log("cookies running:", req.headers.cookie);
+  // console.log("cookies running:", req.headers.cookie);
 next();
 }
 
@@ -17,6 +17,23 @@ app.set('view engine', 'ejs');
 
 
 //routes
+const accounts = {
+  "bws": {
+    id: "bws",
+    email: "kylemcloughlin1000@hotmail.ca",
+    password: "mugsy"
+},
+  "kps": {
+    id: "kps",
+    email: "nigel_white@gmail.com",
+    password: "spottedox"
+  },
+  "mf": {
+    id: "mf",
+    email: "jordan_hind@hotmail.com",
+    password: "kenil"
+  }
+};
 
 var urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -39,10 +56,30 @@ function randomNum(min, max) {
   return random; 
   } //for new user
 
+app.get("/register", (req, res) => {
+  let templateVars = { urls: urlDatabase, cookie: req.cookies.username}
+  // console.log("login", templateVars)
+  res.render("login_page", templateVars)
+})
+app.post("/register", (req, res) => {
+  let randomId = randomNum(0, 6) 
+  accounts[randomId] = { id: `${randomId}`, email: `${req.body.email}`
+  , password: `${req.body.password}` }  
+  
+  console.log("logginginpost", accounts)
+  res.redirect("/urls")
 
-  
+})  
+
+/
+///HERE HER HERE
+
+
+
+
+
+
 app.post("/login",(req, res) => {
-  
   res.cookie("username", req.body.username);
   res.redirect("/urls")
 }); //loginfunction 
@@ -65,7 +102,7 @@ app.get("/urls/new", (req, res) => {
 
 
 app.post("/urls/new",(req, res) => {
- var newId = randomNum(0, 26);
+  var newId = randomNum(0, 26);
   urlDatabase[newId] = req.body.longURL;
   const templateVars = { shortURL : newId, longURL: urlDatabase[newId]}
   
@@ -75,17 +112,16 @@ app.post("/urls/new",(req, res) => {
 
 app.post("/urls/:shortURL/delete",(req, res) => {
   var shortURL = req.params.shortURL;
-  
   delete urlDatabase[shortURL];
   
   res.redirect('/urls');
 });
 //deletebutton
   
-  app.post("/urls/update/:shortUrl",(req, res) => {
+app.post("/urls/update/:shortUrl",(req, res) => {
     urlDatabase[req.params.shortURL] = req.body.longURL;
     console.log('here', req.body)
-console.log('update/:sjpr')
+    console.log('update/:sjpr')
     res.redirect('/urls');
     
     })// update button
