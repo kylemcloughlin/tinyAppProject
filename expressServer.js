@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 //milddleware
 const cookieParser = require("cookie-parser");
 function seeCookies (req, res, next) {
-  // console.log("cookies running:", req.headers.cookie);
+  console.log("cookies running:", req.headers.cookie);
 next();
 }
 
@@ -57,21 +57,24 @@ function randomNum(min, max) {
   } //for new user
 
 app.get("/register", (req, res) => {
-  let templateVars = { urls: urlDatabase, cookie: req.cookies.username}
+  let templateVars = { urls: urlDatabase, cookie: req.cookies.user_id}
+  
   // console.log("login", templateVars)
   res.render("login_page", templateVars)
 })
 app.post("/register", (req, res) => {
-  let randomId = randomNum(0, 6) 
+  if (!req.body.email || !req.body.password) {
+       res.send("error! incorrect username or password")
+  } else 
+  var randomId = randomNum(0, 6) 
   accounts[randomId] = { id: `${randomId}`, email: `${req.body.email}`
   , password: `${req.body.password}` }  
-  
-  console.log("logginginpost", accounts)
+  res.cookie("user_id", accounts[`${randomId}`].id);
+ console.log(accounts, randomId)
   res.redirect("/urls")
 
 })  
 
-/
 ///HERE HER HERE
 
 
@@ -79,13 +82,13 @@ app.post("/register", (req, res) => {
 
 
 
-app.post("/login",(req, res) => {
-  res.cookie("username", req.body.username);
+app.post("/register",(req, res) => {
+  // res.cookie("user_id", req.body.user_id);
   res.redirect("/urls")
 }); //loginfunction 
 
 app.post("/logout", (req, res) => {
-  res.clearCookie("username")
+  res.clearCookie("user_id")
   console.log("logout")
   res.redirect("/urls")
 });//logout POST
@@ -93,7 +96,7 @@ app.post("/logout", (req, res) => {
 app.get("/urls/new", (req, res) => {
   var newId = randomNum(0, 26);
   urlDatabase[newId] = req.body.longURL;
-  const templateVars = { shortURL : newId, longURL: urlDatabase[newId], cookie: req.cookies.username}
+  const templateVars = { shortURL : newId, longURL: urlDatabase[newId], cookie: req.cookies.user_id}
   console.log('"/urls/new')
   // var templateVars = urlDatabase;
   
@@ -131,14 +134,14 @@ app.post("/urls/update/:shortUrl",(req, res) => {
   
 app.get("/urls", (req, res) => {
   // console.log("/urls!")
-  let templateVars = { urls: urlDatabase, cookie: req.cookies.username}
+  let templateVars = { urls: urlDatabase, cookie: req.cookies.user_id}
   res.render('urls_index', templateVars);
 
 });//index page
   
 app.get("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
-  const templateVars = { shortURL: shortURL, longURL: urlDatabase[shortURL], cookie: req.cookies.username };
+  const templateVars = { shortURL: shortURL, longURL: urlDatabase[shortURL], cookie: req.cookies.user_id };
 console.log('/urls/:short');
   res.render("urls_show", templateVars);
 });//dynamic shorturl page
