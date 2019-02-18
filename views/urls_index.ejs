@@ -20,10 +20,10 @@
  <ul> <% for (var shortURL in urls) {%>
    
     
-    <li><%= shortURL %> From <%= urls[shortURL] %> </li>
+    <li> <a href="http://localhost:8080/u/<%= shortURL %>"><b><%= shortURL %></b></a> From <%= urls[shortURL] %> </li>
     <form method="POST" action=<%= `/urls/${shortURL}/delete ` %>>
        <button type="delete" class="btn btn-primary">DELETE</button>
-       <a href="/urls/<%= shortURL %>"> Edit</a>
+       <a href="/urls/<%= shortURL %>"> Edit</a> <hr />
       
     </form>
       

@@ -2,26 +2,28 @@
 <!--veiw/-->
 
 <head>
-<meta charset="UTF8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!-- Bootstrap CSS-->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-<title>TinyApp Login</title>
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+    <title>TinyApp Login</title>
 
 </head>
 
 <body style="font-size: 20px; padding: 50px;">
+    <H4> <%- include('partials/_header.ejs') %></H4>
     <h1>Please Login</h1>
-    
-   
-    <form class="form-inline" action="/register" method="POST" >
-      <input class="form-inline" type="email" name="email" placeholder="@email.ca" style="width: 300px; margin: 1em"> 
-      
-      <form class="form-inline" action="/register" method="POST" >
-          <input class="form-inline" type="password" name="password" placeholder="Password.." style="width: 300px; margin: 1em"> 
-          <button type="submit" class="btn btn-primary" value="Login">Submit</button>
-      </form>
-      </form>
+
+
+    <form class="form-inline" action="/register" method="POST">
+        <input class="form-inline" type="email" name="email" placeholder="@email.ca" style="width: 300px; margin: 1em">
+
+        <form class="form-inline" action="/register" method="POST">
+            <input class="form-inline" type="password" name="password" placeholder="Password.." style="width: 300px; margin: 1em">
+            <button type="submit" class="btn btn-primary" value="Login">Submit</button>
+        </form>
+    </form>
 
 </body>

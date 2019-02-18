@@ -19,19 +19,21 @@
 
 <body style="font-size: 20px; padding: 50px;">
 
-
-    <h1> TinyURL App</h1>
+<div id="body" >
+    <!-- <h1>TinyURL App</h1> -->
     <H4> <%- include('partials/_header.ejs') %></H4>
     <h1>ShortURL</h1>
     <li>
-   <b>     <%= shortURL %> :</b>
-        <%= longURL %>
+    <b>     <%= shortURL %> : </b>
+    <div> <a href="http://localhost:8080/u/<%= shortURL %>"> <%= longURL %> </a></div>
     </li>
     <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
     
-    <form method="POST" action="/update/<%= shortURL %>">  
+    <form method="POST" action="/urls/update/<%= shortURL %>">  
     <input class="form-control" type="text" name="longURL" placeholder="www." style="width: 300px; margin: 1em">
     <button type="submit" class="btn btn-primary">Update...</button>
 
 </form>
+</div>
+
 </body>
