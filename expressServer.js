@@ -74,7 +74,7 @@ const urlDatabase = {
 };
 
 
-//helpper functions
+//helper functions
 function randomNum(min, max) {
   let letterBank = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "k", "L", "M", "n", "O", "P", "Q", "r", "S", "T", "u", "v", "W", "X", "y", "z"];
   let num = Math.round(Math.random() * (max - min) + min);
@@ -88,8 +88,7 @@ function randomNum(min, max) {
   return random;
 } //for new user
 
-function emailComparer(element, users) {
-  var emailArray = []
+function cookieHelper(element, users) {
   var idArray = [];
   for (var email in accounts) {
 
@@ -98,7 +97,25 @@ function emailComparer(element, users) {
 
   for (var i = 0; i < idArray.length; i++) {
     if (users[idArray[i]].email == element) {
-      return true;
+      return users[idArray[i]].id ;
+    }
+
+  }
+  return false;
+}
+
+
+function emailComparer(element, users) {
+
+  var idArray = [];
+  for (var email in accounts) {
+
+    idArray.push(email)
+  }
+
+  for (var i = 0; i < idArray.length; i++) {
+    if (users[idArray[i]].email == element) {
+      return users[idArray[i]].password;
     }
 
   }
@@ -150,7 +167,7 @@ app.post("/register", (req, res) => {
     accounts[randomId] = {
       id: `${randomId}`,
       email: `${req.body.email}`,
-      password: bcrypt.hashSync(`${req.body.password}`, 1)
+      password: `${req.body.password}`
     }
 
   req.session.user_id = accounts[`${randomId}`].id;
@@ -178,25 +195,28 @@ app.post("/login", (req, res) => {
   var email = `${req.body.email}`;
   if (emailComparer(email, accounts) === false || !req.body.password) {
     res.send("404: invalid username or password, refresh and try again!!")
+  } 
+  else if (bcrypt.compareSync(emailComparer(email, accounts), hashedPassword)) {
+     req.session.user_id = cookieHelper(email, accounts);
   } else {
-    if (email === "kylemcloughlin1000@hotmail.ca" && bcrypt.compareSync("mugsy", hashedPassword)) {
+     
+    res.send("incorrect password or email! refresh and try again!!");
 
-      req.session.user_id = accounts["aJ48lW"].id;
-    } else if (email === "nigel_white@gmail.com" && bcrypt.compareSync("spottedox", hashedPassword)) {
-      req.session.user_id = accounts["b2xVn2"].id;
-    } else if (email === "jordan_hind@hotmail.com" && bcrypt.compareSync("kenil", hashedPassword)) {
-      req.session.user_id = accounts["bridasd"].id;
-    } else {
-      res.send("incorrect password or email! refresh and try again!!")
-    }
   }
-
-
   res.redirect("/urls")
 
 }) //login
 
+// if (email === bcrypt.compareSync(emailComparer(email, accounts), hashedPassword)) {
 
+  //   req.session.user_id = accounts["aJ48lW"].id;
+  // } else if (email === "nigel_white@gmail.com" && bcrypt.compareSync("spottedox", hashedPassword)) {
+  //   req.session.user_id = accounts["b2xVn2"].id;
+  // } else if (email === "jordan_hind@hotmail.com" && bcrypt.compareSync("kenil", hashedPassword)) {
+  //   req.session.user_id = accounts["bridasd"].id;
+  // } else {
+  //   res.send("incorrect password or email! refresh and try again!!")
+  // }
 
 
 
@@ -302,7 +322,7 @@ app.get("/urls/:shortURL", (req, res) => {
 app.get("/u/:shortURL", (req, res) => {
   let shorten = req.params.shortURL
   console.log("/u/:shortURL")
-  console.log(urlDatabase[shorten]);
+  // console.log(urlDatabase[shorten]);
   const direction = {
     shortURL: shorten,
     longURL: urlDatabase[shorten].longURL
