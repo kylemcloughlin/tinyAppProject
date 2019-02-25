@@ -103,8 +103,7 @@ function cookieHelper(element, users) {
   return false;
 }
 
-
-function emailComparer(element, users) {
+function passwordComparer(element, users) {
 
   let idArray = [];
   for (var email in accounts) {
@@ -115,6 +114,22 @@ function emailComparer(element, users) {
   for (var i = 0; i < idArray.length; i++) {
     if (users[idArray[i]].email == element) {
       return users[idArray[i]].password;
+    }
+
+  }
+  return false;
+}
+function emailComparer(element, users) {
+
+  let idArray = [];
+  for (var email in accounts) {
+
+    idArray.push(email);
+  }
+
+  for (var i = 0; i < idArray.length; i++) {
+    if (users[idArray[i]].email == element) {
+      return true;
     }
 
   }
@@ -159,7 +174,7 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-  var randomId = randomNum(0, 6);
+  let randomId = randomNum(0, 6);
   if (!req.body.email || !req.body.password || emailComparer(req.body.email, accounts) === true) {
     res.send("404: invalid username or password, refresh and try again!!");
   } else
@@ -168,7 +183,7 @@ app.post("/register", (req, res) => {
       email: `${req.body.email}`,
       password: `${req.body.password}`
     };
-
+   console.log(emailComparer(req.body.email, accounts))
   req.session.user_id = accounts[`${randomId}`].id;
 
   res.redirect("/urls");
@@ -195,7 +210,7 @@ app.post("/login", (req, res) => {
   if (emailComparer(email, accounts) == false || !req.body.password) {
     res.send("404: invalid username or password, refresh and try again!!");
   } 
-  else if (bcrypt.compareSync(emailComparer(email, accounts), hashedPassword)) {
+  else if (bcrypt.compareSync(passwordComparer(email, accounts), hashedPassword)) {
      req.session.user_id = cookieHelper(email, accounts);
   } else {
      
@@ -226,7 +241,6 @@ app.post("/logout", (req, res) => {
 app.get("/urls/new", (req, res) => {
   user = accounts[req.session.user_id];
   var newId = randomNum(0, 26);
-  
   const templateVars = {
     shortURL: newId,
     longURL: urlDatabase[newId],
@@ -283,22 +297,23 @@ app.get("/urls", (req, res) => {
 
 app.get("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
-  
-
   let templateVars = {
     shortURL: shortURL,
     longURL: urlDatabase[shortURL].longURL,
     user: accounts[req.session.user_id]
   };
-
-  res.render("urls_show", templateVars);
+  let user = accounts[req.session.user_id];
+  if (user) {
+    res.render("urls_show", templateVars);
+  } else {
+    res.redirect('/login');
+  }
 }); // dynamic  individual shortURL page
 
 
 app.get("/u/:shortURL", (req, res) => {
-  let shorten = req.params.shortURL;
- 
   
+  let shorten = req.params.shortURL;
   const direction = {
     shortURL: shorten,
     longURL: urlDatabase[shorten].longURL
