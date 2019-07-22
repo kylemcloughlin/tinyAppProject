@@ -1,7 +1,10 @@
 const bcrypt = require("bcrypt");
 const express = require("express");
 const app = express();
-const PORT = 8080; // default port 8080
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 8080;
+}
 const bodyParser = require("body-parser");
 
 //milddleware
@@ -308,5 +311,5 @@ app.get("/u/:shortURL", (req, res) => {
 
 
 app.listen(PORT, () => {
-  console.log(`tinyURL: Listening on port ${PORT}!`);
+  console.log(`tinyURL: Listening on port`);
 }); // server port:8080
