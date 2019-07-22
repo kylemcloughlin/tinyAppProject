@@ -310,6 +310,6 @@ app.get("/u/:shortURL", (req, res) => {
 }); //redirects to long url
 
 
-app.listen(PORT, () => {
+app.listen(port, () => {
   console.log(`tinyURL: Listening on port`);
 }); // server port:8080
