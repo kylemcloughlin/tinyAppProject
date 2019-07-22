@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "lighthouse labs pro###2",
   "scripts": {
-    "start": "./node_modules/.bin/nodemon -L express_server.js",
+    "start": "node expressServer.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
