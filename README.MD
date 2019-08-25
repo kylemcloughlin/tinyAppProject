@@ -1,5 +1,6 @@
 ### TinyApp
 tinyApp is a full stack web application built with node and express that allows users to shorten long URLs
+## Heroku
 view it on heroku at:
 
 https://fast-gorge-83372.herokuapp.com
